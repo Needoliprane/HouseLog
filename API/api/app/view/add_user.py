@@ -43,7 +43,7 @@ app = Blueprint('add_user', __name__, url_prefix='/add_user')
 def add_user():
     get = request.get_json()
 
-    res = requests.post("http://" + ELASTIC + ":9200/users", json=get)
+    res = requests.post("http://" + ELASTIC + ":9200/users/_doc/", json=get)
     if (res.status_code == 200):
         return ({"status" : "ok"})
     return ({"status" : "nop"})

@@ -22,6 +22,7 @@ app = Blueprint('add_door', __name__, url_prefix='/add_door')
 #-------------------------------------------------------------- Json to send
 """
 {
+    "username" : "username",
     "name" : "blabla",
     "position" : "blabla",
     "status" : "blabla",
@@ -43,7 +44,7 @@ app = Blueprint('add_door', __name__, url_prefix='/add_door')
 def add_door():
     get = request.get_json()
 
-    res = requests.post("http://" + ELASTIC + ":9200/doors", json=get)
+    res = requests.post("http://" + ELASTIC + ":9200/doors/_doc/", json=get)
     if (res.status_code == 200):
         return ({"status" : "ok"})
     return ({"status" : "nop"})

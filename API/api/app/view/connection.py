@@ -42,10 +42,14 @@ app = Blueprint('connection', __name__, url_prefix='/connection')
 @cross_origin()
 def connexion():
     get = request.get_json()
+    password = get["password"]
+    username = get["username"]
 
-    res = requests.post("http://" + ELASTIC + ":9200/users", json=get)
-    if (res.status_code == 200):
-        return ({"status" : "ok"})
-    return ({"status" : "nop"})
+    res = requests.post("http://" + ELASTIC + ":9200/users/_search")
+    elemList = res["hits"]["hits"]
+    for elem in elemList:
+        if elem["username"] == username and elem["password"] == password:
+            return ({"status" : "ok"})
+    return ({"status" : "error"})
 #-------------------------------------------------------------- connection
 #--------------------------------------------------------------------------------------- connection
