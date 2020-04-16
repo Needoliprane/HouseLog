@@ -23,7 +23,11 @@ CORS(APP)
 
 from view.add_door import app as add_door
 from view.add_user import app as add_user
+from view.check_doors import app as check_doors
+from view.connection import app as connection
 
+APP.register_blueprint(connection)
+APP.register_blueprint(check_doors)
 APP.register_blueprint(add_door)
 APP.register_blueprint(add_user)
 
