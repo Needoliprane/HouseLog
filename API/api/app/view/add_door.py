@@ -33,7 +33,7 @@ app = Blueprint('add_door', __name__, url_prefix='/add_door')
 #-------------------------------------------------------------- Json answer
 """
 {
-    "status" : "ok"
+    "ReqStatus" : "ok"
 }
 """
 #-------------------------------------------------------------- Json answer
@@ -45,8 +45,10 @@ def add_door():
     get = request.get_json()
 
     res = requests.post("http://" + ELASTIC + ":9200/doors/_doc/", json=get)
-    if (res.status_code == 200):
-        return ({"status" : "ok"})
-    return ({"status" : "nop"})
+    print(res.status_code, file=sys.stderr)
+    print(res.text, file=sys.stderr)
+    if (res.status_code == 200 or res.status_code == 201):
+        return ({"ReqStatus" : "ok"})
+    return ({"ReqStatus" : "error"})
 #-------------------------------------------------------------- add_door
 #--------------------------------------------------------------------------------------- add_door

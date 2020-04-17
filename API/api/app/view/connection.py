@@ -31,8 +31,14 @@ app = Blueprint('connection', __name__, url_prefix='/connection')
 
 #-------------------------------------------------------------- Json answer
 """
+good
 {
     "status" : "ok"
+}
+
+error
+{
+    "status" : "error"
 }
 """
 #-------------------------------------------------------------- Json answer
@@ -46,10 +52,15 @@ def connexion():
     username = get["username"]
 
     res = requests.post("http://" + ELASTIC + ":9200/users/_search")
+    if (res.status_code != 200):
+        return ({"ReqStatus" : "error"})
+    res = json.loads(res.text)
     elemList = res["hits"]["hits"]
     for elem in elemList:
+        elem = elem["_source"]
         if elem["username"] == username and elem["password"] == password:
             return ({"status" : "ok"})
     return ({"status" : "error"})
+
 #-------------------------------------------------------------- connection
 #--------------------------------------------------------------------------------------- connection

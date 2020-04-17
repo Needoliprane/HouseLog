@@ -47,11 +47,16 @@ def update_door():
     position = get["position"]
     name = get["name"]
 
-    res = requests.get("http://" + ELASTIC + ":9200/doors/_search/")
+    res = requests.post("http://" + ELASTIC + ":9200/doors/_search")
+    if (res.status_code != 200):
+        return ({"ReqStatus" : "error"})
+    res = json.loads(res.text)
     elemList = res["hits"]["hits"]
     for elem in elemList:
+        _id = elem["_id"]
+        elem = elem["_source"]
         if elem["username"] == username and elem["position"] == position and elem["name"] == name:
-            requests.delete("http://" + ELASTIC + ":9200/doors/_doc/" + elem["_id"])
+            requests.delete("http://" + ELASTIC + ":9200/doors/_doc/" + _id)
             requests.post("http://" + ELASTIC + ":9200/doors/_doc/", json=get)
             return ({"status" : "ok"})
     return ({"status" : "error"})

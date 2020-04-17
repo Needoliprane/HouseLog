@@ -36,18 +36,19 @@ good
     "username" : "blabal"
     "name" : "main1",
     "position" : "main1",
-    "status" : "open1"
+    "status" : "open1",
+    "ReqStatus" : "ok"
 }
 
 error
 {
-    "status" : "error"
+    "ReqStatus" : "error"
 }
 """
 #-------------------------------------------------------------- Json answer
 
 #-------------------------------------------------------------- check_door
-@app.route('/check_door', methods = ['POST'])
+@app.route('/check_door', methods = ['GET'])
 @cross_origin()
 def check_door():
     get = request.get_json()
@@ -55,12 +56,16 @@ def check_door():
     username = get["username"]
 
     res = requests.post("http://" + ELASTIC + ":9200/doors/_search")
+    if (res.status_code != 200):
+        return ({"ReqStatus" : "error"})
+    res = json.loads(res.text)
     elemList = res["hits"]["hits"]
     for elem in elemList:
+        elem = elem["_source"]
         if elem["username"] == username and elem["name"] == name:
-            elem["status"] = "ok"
+            elem["ReqStatus"] = "ok"
             return (elem)
-    return ({"status" : "error"})
+    return ({"ReqStatus" : "error"})
 
 #-------------------------------------------------------------- check_door
 #--------------------------------------------------------------------------------------- check_door
@@ -70,7 +75,6 @@ def check_door():
 """
 {
     "username" : "username",
-    "name" : "blabla"
 }
 """
 #-------------------------------------------------------------- Json to send
@@ -78,39 +82,46 @@ def check_door():
 #-------------------------------------------------------------- Json answer
 """
 good
-[{
-    "status" : "ok",
-    "username" : "blabal"
-    "name" : "main1",
-    "position" : "main1",
-    "status" : "open1"
-},....]
+{
+    "data": [
+        {
+            "status" : "ok",
+            "username" : "blabal"
+            "name" : "main1",
+            "position" : "main1",
+            "status" : "open1"
+        },....
+    ]
+}
 
 error
 {
-    "status" : "error"
+    "ReqStatus" : "error"
 }
 """
 #-------------------------------------------------------------- Json answer
 
 #-------------------------------------------------------------- check_doors
-@app.route('/check_doors', methods = ['POST'])
+@app.route('/check_doors', methods = ['GET'])
 @cross_origin()
 def check_doors():
     get = request.get_json()
-    name = get["name"]
     username = get["username"]
     listReturn = []
 
     res = requests.post("http://" + ELASTIC + ":9200/doors/_search")
+    if (res.status_code != 200):
+        return ({"ReqStatus" : "error"})
+    res = json.loads(res.text)
     elemList = res["hits"]["hits"]
     for elem in elemList:
-        if elem["username"] == username and elem["name"] == name:
-            elem["status"] = "ok"
+        elem = elem["_source"]
+        if elem["username"] == username:
+            elem["ReqStatus"] = "ok"
             listReturn.append(elem)
     if (listReturn == []):
-        return ({"status" : "error"})
-    return (listReturn)
+        return ({"ReqStatus" : "error"})
+    return ({"data" : listReturn})
 
 #-------------------------------------------------------------- check_doors
 #--------------------------------------------------------------------------------------- check_doors
