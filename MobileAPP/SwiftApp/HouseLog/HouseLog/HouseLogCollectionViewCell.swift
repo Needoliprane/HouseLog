@@ -84,11 +84,17 @@ class HouseLogCollectionViewCell: UICollectionViewCell
         }
     }
     
+    @IBAction func askForPlacingSensor()
+    {
+        sensorDelegate?.wantToPlaceSensor()
+    }
+    
     func setAndLaunchCellBehavior(_ houseLogSensorDelegate: HouseLogSensorDelegate?)
     {
         if (houseLogSensorDelegate != nil) {
             sensorDelegate = houseLogSensorDelegate
             launchBehavior()
+
         }
         else {
             print("bizarre")

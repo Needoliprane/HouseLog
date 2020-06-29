@@ -120,9 +120,6 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HouseLog-Symbol-2;0" translatesAutoresizingMaskIntoConstraints="NO" id="xBR-9L-A4Z">
                                 <rect key="frame" x="87" y="610" width="240" height="242"/>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0Ga-rW-C1K">
-                                <rect key="frame" x="28" y="54" width="358" height="448"/>
-                            </imageView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="OPb-dJ-dHT">
                                 <rect key="frame" x="28" y="616.5" width="358" height="245.5"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -165,6 +162,9 @@
                                                     <state key="normal" title="Place  Sensor">
                                                         <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="askForPlacingSensor" destination="9Cc-sa-Dfd" eventType="touchUpInside" id="1br-IW-bJA"/>
+                                                    </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Close" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="mXN-Nm-078">
                                                     <rect key="frame" x="175.5" y="59.5" width="111" height="60"/>
@@ -204,7 +204,7 @@
                                         <connections>
                                             <outlet property="SensorImage" destination="Yb0-WJ-him" id="JdX-YO-2fz"/>
                                             <outlet property="houseLogSensorLabel" destination="TGZ-uU-xNQ" id="Cp5-Yo-nO0"/>
-                                            <outlet property="sensorPlacingButton" destination="kCO-3S-omP" id="Dvv-Tg-lqi"/>
+                                            <outlet property="sensorPlacingButton" destination="kCO-3S-omP" id="0Ub-dQ-LCB"/>
                                             <outlet property="sensorStateLabel" destination="mXN-Nm-078" id="XAU-OZ-kju"/>
                                             <outlet property="statusLabel" destination="H8v-uj-MQ8" id="ad9-G1-9NG"/>
                                         </connections>
@@ -222,18 +222,34 @@
                                     <action selector="btnClicked" destination="yWN-zr-ePh" eventType="touchUpInside" id="mMj-93-DNr"/>
                                 </connections>
                             </button>
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r3n-yH-N3c">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <color key="backgroundColor" white="0.327574823943662" alpha="0.35615647007042256" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <gestureRecognizers/>
+                            </view>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0Ga-rW-C1K">
+                                <rect key="frame" x="28" y="54" width="358" height="448"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="hwb-kS-cJ5" appends="YES" id="3cW-WH-mDx"/>
+                                </connections>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="uCg-Cc-i1D" firstAttribute="centerX" secondItem="0Ga-rW-C1K" secondAttribute="centerX" id="2Kt-Yp-cZD"/>
                             <constraint firstItem="0Ga-rW-C1K" firstAttribute="height" secondItem="NFE-Id-w4t" secondAttribute="height" multiplier="0.5" id="2fM-9E-9Az"/>
+                            <constraint firstItem="r3n-yH-N3c" firstAttribute="width" secondItem="NFE-Id-w4t" secondAttribute="width" id="3GY-sG-Mdp"/>
+                            <constraint firstItem="r3n-yH-N3c" firstAttribute="height" secondItem="NFE-Id-w4t" secondAttribute="height" id="7lu-QJ-M0a"/>
                             <constraint firstItem="xBR-9L-A4Z" firstAttribute="bottom" secondItem="9gh-6d-yPM" secondAttribute="bottom" constant="-10" id="7we-ON-8N1"/>
                             <constraint firstItem="0Ga-rW-C1K" firstAttribute="top" secondItem="9gh-6d-yPM" secondAttribute="top" constant="10" id="BJN-EB-S1a"/>
                             <constraint firstItem="0Ga-rW-C1K" firstAttribute="centerX" secondItem="9gh-6d-yPM" secondAttribute="centerX" id="Co7-av-NK0"/>
                             <constraint firstItem="xBR-9L-A4Z" firstAttribute="height" secondItem="NFE-Id-w4t" secondAttribute="height" multiplier="0.27" id="GRg-4e-dxm"/>
                             <constraint firstItem="OPb-dJ-dHT" firstAttribute="centerX" secondItem="0Ga-rW-C1K" secondAttribute="centerX" id="JSi-OA-Q25"/>
+                            <constraint firstItem="r3n-yH-N3c" firstAttribute="centerY" secondItem="NFE-Id-w4t" secondAttribute="centerY" id="M6y-Bu-2kG"/>
                             <constraint firstItem="OPb-dJ-dHT" firstAttribute="top" secondItem="uCg-Cc-i1D" secondAttribute="bottom" constant="20" id="MC6-AJ-1fe"/>
                             <constraint firstItem="uCg-Cc-i1D" firstAttribute="width" secondItem="0Ga-rW-C1K" secondAttribute="width" multiplier="0.75" id="PwB-sb-tQi"/>
+                            <constraint firstItem="r3n-yH-N3c" firstAttribute="centerX" secondItem="NFE-Id-w4t" secondAttribute="centerX" id="bzN-HM-uAR"/>
                             <constraint firstItem="uCg-Cc-i1D" firstAttribute="top" secondItem="0Ga-rW-C1K" secondAttribute="bottom" constant="5" id="ed1-EY-dOu"/>
                             <constraint firstItem="OPb-dJ-dHT" firstAttribute="bottom" secondItem="9gh-6d-yPM" secondAttribute="bottom" id="iSR-6h-md4"/>
                             <constraint firstItem="0Ga-rW-C1K" firstAttribute="width" secondItem="NFE-Id-w4t" secondAttribute="width" multiplier="0.864734" id="lAG-YW-XiZ"/>
@@ -245,15 +261,22 @@
                         <viewLayoutGuide key="safeArea" id="9gh-6d-yPM"/>
                     </view>
                     <connections>
+                        <outlet property="alphaViewForGestureRecognizer" destination="r3n-yH-N3c" id="u2b-dQ-5Am"/>
                         <outlet property="collectionView" destination="OPb-dJ-dHT" id="xdR-wj-Wcc"/>
                         <outlet property="contentView" destination="NFE-Id-w4t" id="d2U-N7-ngm"/>
                         <outlet property="logoImage" destination="xBR-9L-A4Z" id="aeI-aT-lMj"/>
                         <outlet property="modelChooseButton" destination="uCg-Cc-i1D" id="K1p-wW-wJu"/>
+                        <outlet property="modelImageTapRecognizer" destination="hwb-kS-cJ5" id="AVq-4h-aD6"/>
                         <outlet property="modelImageView" destination="0Ga-rW-C1K" id="Xp3-u4-mfe"/>
                         <outlet property="modelImageViewCenterY" destination="ed1-EY-dOu" id="8qN-vo-afr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JzG-PW-v01" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="hwb-kS-cJ5">
+                    <connections>
+                        <action selector="placingHouseLogSensor" destination="yWN-zr-ePh" id="Dtd-D9-adz"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1340.5797101449277" y="126.5625"/>
         </scene>

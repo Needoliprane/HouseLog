@@ -10,8 +10,6 @@ import Foundation
 
 protocol HouseLogSensorDelegate {
     func sensorUpdate(_ state: SensorState)
+    func wantToPlaceSensor()
 }
 
-protocol HouseLogCellDelegate {
-    func placingSensor(indexPath:)
-}

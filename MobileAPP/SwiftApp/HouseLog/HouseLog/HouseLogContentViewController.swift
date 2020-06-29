@@ -8,29 +8,29 @@
 
 import UIKit
 
-class HouseLogContentViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, HouseLogSensorDelegate
+class HouseLogContentViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate,  UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, HouseLogSensorDelegate
 {
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet var contentView: UIView!
     @IBOutlet var modelImageView: UIImageView!
+    @IBOutlet var modelImageTapRecognizer: UITapGestureRecognizer!
     @IBOutlet var modelChooseButton: UIButton!
     @IBOutlet var modelImageViewCenterY: NSLayoutConstraint!
     @IBOutlet weak var logoImage: UIImageView!
+    @IBOutlet weak var alphaViewForGestureRecognizer: UIView!
     var imagePicker = UIImagePickerController()
     var isAnImage = false
     var initState = 0
-
-    func configCollectionView() {
-        collectionView.dataSource = self
-        collectionView.delegate = self
-    }
+    var sensorPlacedImageView : Dictionary<Int, UIImageView> = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         // Do any additional setup after loading the view.
         updateDisplay()
-
+        
+        configSensorPlacing()
         configCollectionView()
     }
     
@@ -47,13 +47,41 @@ class HouseLogContentViewController: UIViewController, UINavigationControllerDel
         }
     }
     
-    func displayLoginViewController()
+    func configSensorPlacing()
     {
-        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        let controller = storyboard.instantiateViewController(identifier: "HouseLog_Starting_View")
+        alphaViewForGestureRecognizer.isHidden = true
+        modelImageTapRecognizer.isEnabled = false
+    }
+    
+    func startHouseLogSensorPlacing()
+    {
+        alphaViewForGestureRecognizer.isHidden = false
+        modelImageTapRecognizer.isEnabled = true
+        modelImageView.isUserInteractionEnabled = true
+    }
+    
+    func stopHouseLogSensorPlacing()
+    {
+        alphaViewForGestureRecognizer.isHidden = true
+        modelImageTapRecognizer.isEnabled = false
+        modelImageView.isUserInteractionEnabled = false
+    }
 
-        controller.modalPresentationStyle = UIModalPresentationStyle.overFullScreen
-        self.present(controller, animated: true, completion: nil)
+    @IBAction func placingHouseLogSensor() {
+        let cell = collectionView.cellForItem(at: IndexPath(row: 0, section: 0)) as! HouseLogCollectionViewCell
+        let houseLogImageView = UIImageView(image: cell.SensorImage.image)
+        let pointCoord = modelImageTapRecognizer.location(in: modelImageView)
+        let imageWidth = 20.0
+        let imageHeight = 20.0
+
+        houseLogImageView.frame = CGRect(x: Double(pointCoord.x) - (imageHeight/2), y: Double(pointCoord.y) - (imageWidth/2), width: imageWidth, height: imageHeight)
+        print(modelImageTapRecognizer.location(in: modelImageView))
+        
+        sensorPlacedImageView[0]?.removeFromSuperview()
+        sensorPlacedImageView.updateValue(houseLogImageView, forKey: 0)
+        modelImageView.addSubview(houseLogImageView)
+        
+        stopHouseLogSensorPlacing()
     }
     
     @IBAction func btnClicked()
@@ -67,7 +95,21 @@ class HouseLogContentViewController: UIViewController, UINavigationControllerDel
             present(imagePicker, animated: true, completion: nil)
         }
     }
+    
+    func configCollectionView() {
+        collectionView.dataSource = self
+        collectionView.delegate = self
+    }
+    
+    func displayLoginViewController()
+    {
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let controller = storyboard.instantiateViewController(identifier: "HouseLog_Starting_View")
 
+        controller.modalPresentationStyle = UIModalPresentationStyle.overFullScreen
+        self.present(controller, animated: true, completion: nil)
+    }
+    
     func updateDisplay()
     {
         if ((modelImageView.image) != nil) {
@@ -106,6 +148,8 @@ class HouseLogContentViewController: UIViewController, UINavigationControllerDel
         }
     }
 
+    // Collection View Delegate
+    
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         //#warning Incomplete method implementation -- Return the number of sections
         return 1
@@ -159,10 +203,25 @@ class HouseLogContentViewController: UIViewController, UINavigationControllerDel
         return CGSize(width: collectionView.frame.width, height: (collectionView.frame.height / 5) )
     }
     
-    // Delegate
-    
+    // House Log Delegate
+
     func sensorUpdate(_ state: SensorState) {
         print("sensorUpdate")
+        if ( state == SensorState.green) {
+            let image = #imageLiteral(resourceName: "Green_circle")
+        
+            sensorPlacedImageView[0]?.image = image
+        }
+        else {
+            let image = #imageLiteral(resourceName: "Red_circle")
+
+            sensorPlacedImageView[0]?.image = image
+        }
+    }
+    
+    func wantToPlaceSensor()
+    {
+        startHouseLogSensorPlacing()
     }
 
 }
