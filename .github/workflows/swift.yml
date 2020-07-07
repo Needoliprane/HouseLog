@@ -14,6 +14,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build
-      run: swift build -v
+      run: swift ../MobileAPP/ build -v
     - name: Run tests
-      run: swift test -v
+      run: swift ../MobileAPP/ test -v
