@@ -15,5 +15,7 @@ Dans le cadre du projet nous avons utilisé un rasberry Pi. Ce rasberry Pi va do
 Quand l'utilisateur sors de chez lui, et qu'il a un doute, il pourra vérifier sur son smarthphobne si il a bien fermé la porte grâce a notre application.
 
 Merci à Arthur Boulliard pour l'application mobile (arthur.boulliard@epitech.eu)
+
 Merci à Armand Larzilliere pour la partie hardware (armand.larzilliere@epitech.eu)
+
 Merci à Louis-auguste Dumas pour l'API et la partie gestion de projet (louis-auguste.dumas@epitech.eu)
