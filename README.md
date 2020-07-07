@@ -12,7 +12,7 @@ Un capteur arduino est rataché à une porte, un capteur va détecter si la serr
 
 Dans le cadre du projet nous avons utilisé un rasberry Pi. Ce rasberry Pi va donc contenir le serveur et la base de donnée de l'utilisateur.
 
-Quand l'utilisateur sors de chez lui, et qu'il a un doute, il pourra vérifier sur son smarthphone si il a bien fermé la porte grâce a notre application.
+Quand l'utilisateur sors de chez lui, et qu'il a un doute, il pourra vérifier sur son smarthphone s'il a bien fermé la porte grâce a notre application.
 
 # Qui sommes nous ?
 
